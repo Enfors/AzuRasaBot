@@ -1,0 +1,8 @@
+__pycache__
+*.ini
+credentials.yml
+data
+*.db
+*-shm
+*-wal
+models

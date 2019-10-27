@@ -1,0 +1,20 @@
+intents:
+- greet
+- goodbye
+- bot_challenge
+- current_weather
+- inform_location
+entities:
+- location
+templates:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+actions:
+- utter_greet
+- utter_goodbye
+- utter_iamabot
+- action_current_weather
