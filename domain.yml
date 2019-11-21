@@ -6,6 +6,12 @@ intents:
 - inform_location
 entities:
 - location
+slots:
+  location:
+    type: unfeaturized
+    auto_fill: false
+forms:
+  - current_weather_form
 templates:
   utter_greet:
   - text: Hey! How are you?
@@ -13,8 +19,14 @@ templates:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
+  utter_ask_location:
+  - text: "In what location?"
+  utter_slot_values:
+  - text: "I will give you the current weather for {location}."
+  utter_submit:
+  - text: "All done!"
 actions:
 - utter_greet
 - utter_goodbye
 - utter_iamabot
-- action_current_weather
+- utter_slot_values

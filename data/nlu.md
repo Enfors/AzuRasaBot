@@ -14,7 +14,7 @@
 - What's the weather?
 - What's the weather like in [Karlstad](location)?
 - What's the weather like in [Ekshärad](location)?
-- What the weather in [Karlstad](location)?
+- What's the weather in [Karlstad](location)?
 - Weather in [Arvika](location)?
 
 ## intent:goodbye

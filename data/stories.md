@@ -1,6 +1,9 @@
 ## happy path
 * current_weather
-  - action_current_weather
+  - current_weather_form
+  - form{"name": "current_weather_form"}
+  - form{"name": null}
+  - utter_slot_values
 
 ## greet path
 * greet

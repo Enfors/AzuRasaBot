@@ -4,45 +4,65 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/core/actions/#custom-actions/
 
+from typing import Any, Text, Dict, List, Union
+
+from rasa_sdk import Tracker
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.forms import FormAction
+
 import weather
 
-# This is a simple example for a custom action which utters "Hello World!"
 
-from typing import Any, Text, Dict, List
-#
-from rasa_sdk import Action, Tracker
-from rasa_sdk.executor import CollectingDispatcher
-#
-#
-# class ActionHelloWorld(Action):
-#
+# class ActionCurrentWeather(Action):
+
 #     def name(self) -> Text:
-#         return "action_hello_world"
-#
+#         return "action_current_weather"
+
 #     def run(self, dispatcher: CollectingDispatcher,
 #             tracker: Tracker,
 #             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#
-#         dispatcher.utter_message("Hello World!")
-#
+
+#         location = "Karlstad"
+
+#         w = weather.Weather()
+#         weather_report = w.get_current_weather(location)
+
+#         dispatcher.utter_message(w.format_weather(weather_report,
+#                                                   location))
+
 #         return []
 
 
-class ActionCurrentWeather(Action):
+class CurrentWeatherForm(FormAction):
 
     def name(self) -> Text:
-        return "action_current_weather"
+        return "current_weather_form"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    @staticmethod
+    def required_slots(tracker: Tracker) -> List[Text]:
+        return ["location"]
 
-        location = "Karlstad"
+    def slot_mappings(self) -> Dict[Text, Union[Dict, List[Dict]]]:
+        """
+        A dictionary to map required slots to
+        - an extracted entity
+        - intent: value pairs
+        - a whole message
+        or a list of them, where a first match will be picked
+        """
+        print("----In slot_mappings")
+        return {
+            "location": self.from_entity(entity="location")
+            }
 
+    def submit(self,
+               dispatcher: CollectingDispatcher,
+               tracker: Tracker,
+               domain: Dict[Text, Any]) -> List[Dict]:
+        print("----In submit")
+        location = tracker.get_slot("location")
         w = weather.Weather()
         weather_report = w.get_current_weather(location)
-
         dispatcher.utter_message(w.format_weather(weather_report,
                                                   location))
-
-        return []
+        dispatcher.utter_template("utter_submit", tracker)
